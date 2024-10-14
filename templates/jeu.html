@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juste Prix - Jeu</title>
+    <!-- Inclure le fichier CSS de Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Page du Jeu</h1>
+        <p class="subtitle">
+            Bienvenue sur la page du jeu du Juste Prix.
+        </p>
+        <div id="product-info">
+            <img id="product-image" src="" alt="Product Image">
+            <h2 id="product-title"></h2>
+            <p id="product-price"></p>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Utiliser un code de produit spécifique pour l'exemple
+        const productCode = 'B09V356ZBZ';
+        fetch(`/api/product?code=${productCode}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('product-image').src = data.image;
+                document.getElementById('product-title').textContent = data.title;
+                document.getElementById('product-price').textContent = `Prix: ${data.price} €`;
+            });
+    });
+</script>
+</body>
+</html>
