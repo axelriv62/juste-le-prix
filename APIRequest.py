@@ -9,3 +9,4 @@ def get_data(code):
     print(response['title'])
 
 get_data("B09V356ZBZ")
+
