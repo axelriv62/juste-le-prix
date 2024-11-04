@@ -4,17 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juste Prix - Accueil</title>
-    <!-- Inclure le fichier CSS de Bulma -->
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+
+        .swing {
+            animation: swing 2s ease-in-out infinite;
+        }
+
+        @keyframes swing {
+            0% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+            100% { transform: rotate(-5deg); }
+        }
+
+        .bottom-right {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .logo-image {
+            width: 256px;
+            height: auto;
+        }
+
+
+        .large-image {
+            width: 300px;
+            height: auto;
+        }
+
+
+
+        .section {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s;
+        }
+    </style>
 </head>
 <body>
 <section class="section">
     <div class="container">
-        <h1 class="title">Bienvenue au Juste Prix</h1>
-        <p class="subtitle">
-            Cliquez sur le bouton ci-dessous pour accéder au jeu.
-        </p>
-        <a class="button is-primary" href="jeu.html">Rejoindre le jeu</a>
+        <div class="columns is-vcentered">
+
+            <div class="column has-text-centered">
+                <figure class="image mx-auto logo-image">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo du Juste Prix">
+                </figure>
+                <a class="button is-primary is-large is-fullwidth mt-5" href="jeu">Rejoindre le jeu</a>
+            </div>
+
+            <div class="column has-text-centered">
+                <figure class="image swing large-image mx-auto">
+                    <img src="{{ url_for('static', filename='img/lagaffe.png') }}" alt="Lagaffe se balance">
+                </figure>
+            </div>
+        </div>
     </div>
 </section>
 </body>
