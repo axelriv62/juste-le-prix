@@ -42,14 +42,14 @@ c = conn.cursor()
 
 # Create table Player
 c.execute('''
-    CREATE TABLE Player (
+    CREATE TABLE IF NOT EXISTS Player(
         player_name TEXT NOT NULL,
         score INTEGER NOT NULL,
         product_code TEXT NOT NULL,
         FOREIGN KEY(product_code) REFERENCES Product(product_code)
     )
 ''')
-#inserer_joueur('Joueur1', 100, 'PADS1')
+inserer_joueur('Joueur1', 100, 'PADS1')
 #inserer_joueur('Joueur2', 200, 'P2HSG')
 #inserer_joueur('Joueur3', 300, 'PCDF3')
 #print(get_joueurs('Joueur1'))
