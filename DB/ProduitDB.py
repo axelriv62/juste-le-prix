@@ -1,6 +1,8 @@
 import sqlite3
 
 import requests
+
+import APIRequest
 from flask import Flask, render_template, request, redirect, url_for, session, flash, abort
 con=sqlite3.connect("ma_db.db")
 cur=con.cursor()

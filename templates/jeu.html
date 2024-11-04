@@ -15,25 +15,11 @@
             Bienvenue sur la page du jeu du Juste Prix.
         </p>
         <div id="product-info">
-            <img id="product-image" src="" alt="Product Image">
-            <h2 id="product-title"></h2>
-            <p id="product-price"></p>
+            <img id="product-image" src="{{ image }}" alt="product_image">
+            <h2 id="product-title">{{ nom }}</h2>
+            <p id="product-price">{{ prix }}</p>
         </div>
     </div>
 </section>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Utiliser un code de produit spécifique pour l'exemple
-        const productCode = 'B09V356ZBZ';
-        fetch(`/api/product?code=${productCode}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('product-image').src = data.image;
-                document.getElementById('product-title').textContent = data.title;
-                document.getElementById('product-price').textContent = `Prix: ${data.price} €`;
-            });
-    });
-</script>
 </body>
 </html>
