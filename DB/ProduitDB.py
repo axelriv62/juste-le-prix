@@ -2,7 +2,7 @@ import sqlite3
 
 import requests
 from flask import Flask, render_template, request, redirect, url_for, session, flash, abort
-con=sqlite3.connect("data.db")
+con=sqlite3.connect("ma_db.db")
 cur=con.cursor()
 
 cur.execute("""CREATE TABLE IF NOT EXISTS PRODUIT
