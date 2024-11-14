@@ -6,17 +6,84 @@
     <title>Juste Prix - Jeu</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <style>
+        /* Assurer que html et body prennent toute la hauteur */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+
+        }
+        /*
+        body {
+            background-image: url('{{ url_for('static', filename='img/bg.png') }}');
+            background-repeat: repeat;
+            background-size: 50px;
+            background-position: 0 0, 35px 0, 0 35px, 35px 35px;
+        }
+        */
+
+
+        /* La section principale prend toute la hauteur et centre le contenu */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*background-color: #f5f5f5;*/
+            padding: 2rem;
+        }
+
         .logo-image {
             width: 200px;
             height: auto;
+
         }
+
         .product-image {
-            max-width: 100px;
-            height: auto;
+            width: 250px; /* Largeur fixe */
+            height: 250px; /* Hauteur fixe */
+            object-fit: contain; /* Pour s'assurer que l'image s'adapte bien */
             margin-bottom: 20px;
         }
+
         #product-price {
             display: none;
+        }
+
+        /* Mode sombre */
+        .dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        /* Mode sombre pour la section */
+        .dark-mode .section {
+            background-color: #121212;
+        }
+
+        /* Mode sombre pour les boîtes et les éléments */
+        .dark-mode .box {
+            background-color: #1e1e1e;
+        }
+
+        .dark-mode .input, .dark-mode .button {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        .dark-mode .label, .dark-mode .title, .dark-mode .control {
+            color: #ffffff;
+        }
+
+        .dark-mode ::placeholder {
+            color: #ffffff;
+        }
+
+        /* Position du bouton Dark Mode en bas à droite */
+        .bottom-right {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
         }
     </style>
 </head>
@@ -54,6 +121,20 @@
             </div>
         </div>
     </div>
+
+    <!-- Bouton Dark Mode en bas à droite de la page -->
+    <div class="bottom-right">
+        <button id="dark-mode-toggle" class="button is-light">Dark Mode</button>
+    </div>
 </section>
+
+<script>
+    document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        this.classList.toggle('is-dark');
+        this.classList.toggle('is-light');
+        this.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+    });
+</script>
 </body>
 </html>
