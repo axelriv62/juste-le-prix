@@ -59,7 +59,15 @@
                 <figure class="image mx-auto logo-image">
                     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo du Juste Prix">
                 </figure>
-                <a class="button is-primary is-large is-fullwidth mt-5" href="jeu">Rejoindre le jeu</a>
+                <form action="/jeu" method="get">
+                    <div class="field">
+                        <label class="label" for="pseudo">Entrez votre pseudo:</label>
+                        <div class="control">
+                            <input class="input" type="text" id="pseudo" name="pseudo" required>
+                        </div>
+                    </div>
+                    <button class="button is-primary is-large is-fullwidth mt-5" type="submit">Rejoindre le jeu</button>
+                </form>
             </div>
 
             <div class="column has-text-centered">

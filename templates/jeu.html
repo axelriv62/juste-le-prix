@@ -31,6 +31,11 @@
             </div>
         </div>
 
+        <h1>Bienvenue, {{ pseudo }}</h1>
+        {% if score %}
+            <p>Votre score précédent: {{ score }}</p>
+        {% endif %}
+
         <!-- Information du produit -->
         <div id="product-info" class="box has-text-centered">
             <!-- Image du produit -->
