@@ -1,5 +1,6 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 import APIRequest
+import sqlite3
 from APIRequest import get_random_product
 
 app = Flask(__name__)
@@ -10,20 +11,29 @@ def index():
 
 @app.route('/jeu', methods=['GET'])
 def jeu():
-    code = get_random_product()
-    image = APIRequest.get_image(code)
-    nom = APIRequest.get_nom(code)
-    prix = APIRequest.get_prix(code)
-    return render_template('jeu.html', image=image, nom=nom, prix=prix)
+    pseudo = request.args.get('pseudo')
+    if not pseudo:
+        return redirect(url_for('index'))
 
-@app.route('/jeu', methods=['POST'])
-def jeu_post():
-    nom = request.form['nom']
-    score = request.form['score']
-    code_produit = request.form['code_produit']
-    APIRequest.insert_log(nom, score, code_produit)
-    return render_template('index.html')
+    conn = sqlite3.connect('DB/ma_db.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM Player WHERE player_name = ?", (pseudo,))
+    player_data = c.fetchone()
+    conn.close()
 
+    if player_data:
+        score = player_data[1]
+        product_code = player_data[2]
+        image = APIRequest.get_image(product_code)
+        nom = APIRequest.get_nom(product_code)
+        prix = APIRequest.get_prix(product_code)
+        return render_template('jeu.html', pseudo=pseudo, score=score, image=image, nom=nom, prix=prix)
+    else:
+        code = get_random_product()
+        image = APIRequest.get_image(code)
+        nom = APIRequest.get_nom(code)
+        prix = APIRequest.get_prix(code)
+        return render_template('jeu.html', pseudo=pseudo, image=image, nom=nom, prix=prix)
 
 if __name__ == '__main__':
     app.run(debug=True)
