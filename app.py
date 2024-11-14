@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for
 import APIRequest
 import sqlite3
+from APIRequest import get_random_product
 
 app = Flask(__name__)
 
@@ -28,8 +29,7 @@ def jeu():
         prix = APIRequest.get_prix(product_code)
         return render_template('jeu.html', pseudo=pseudo, score=score, image=image, nom=nom, prix=prix)
     else:
-        # Démarrer un nouveau joueur
-        code = "B07YQFZ6CJ"
+        code = get_random_product()
         image = APIRequest.get_image(code)
         nom = APIRequest.get_nom(code)
         prix = APIRequest.get_prix(code)
