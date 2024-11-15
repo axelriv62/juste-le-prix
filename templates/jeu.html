@@ -6,80 +6,51 @@
     <title>Juste Prix - Jeu</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <style>
-        /* Assurer que html et body prennent toute la hauteur */
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
-
         }
-        /*
-        body {
-            background-image: url('{{ url_for('static', filename='img/bg.png') }}');
-            background-repeat: repeat;
-            background-size: 50px;
-            background-position: 0 0, 35px 0, 0 35px, 35px 35px;
-        }
-        */
-
-
-        /* La section principale prend toute la hauteur et centre le contenu */
         .section {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            /*background-color: #f5f5f5;*/
             padding: 2rem;
         }
-
         .logo-image {
             width: 200px;
             height: auto;
-
         }
-
         .product-image {
-            width: 250px; /* Largeur fixe */
-            height: 250px; /* Hauteur fixe */
-            object-fit: contain; /* Pour s'assurer que l'image s'adapte bien */
+            width: 250px;
+            height: 250px;
+            object-fit: contain;
             margin-bottom: 20px;
         }
-
         #product-price {
             display: none;
         }
-
-        /* Mode sombre */
         .dark-mode {
             background-color: #121212;
             color: #ffffff;
         }
-
-        /* Mode sombre pour la section */
         .dark-mode .section {
             background-color: #121212;
         }
-
-        /* Mode sombre pour les boîtes et les éléments */
         .dark-mode .box {
             background-color: #1e1e1e;
         }
-
         .dark-mode .input, .dark-mode .button {
             background-color: #333333;
             color: #ffffff;
         }
-
         .dark-mode .label, .dark-mode .title, .dark-mode .control {
             color: #ffffff;
         }
-
         .dark-mode ::placeholder {
             color: #ffffff;
         }
-
-        /* Position du bouton Dark Mode en bas à droite */
         .bottom-right {
             position: fixed;
             bottom: 20px;
@@ -98,12 +69,10 @@
             </div>
         </div>
 
-        <!-- Affichage du pseudo -->
         <div class="box has-text-centered">
             <h1 class="title">Bienvenue, {{ pseudo }}</h1>
         </div>
 
-        <!-- Sélection du thème -->
         <div class="box has-text-centered">
             <form action="/jeu" method="get">
                 <input type="hidden" name="pseudo" value="{{ pseudo }}">
@@ -123,26 +92,30 @@
             </form>
         </div>
 
-        <!-- Information du produit -->
         <div id="product-info" class="box has-text-centered">
-            <!-- Image du produit -->
             <img id="product-image" src="{{ image }}" alt="Image du produit" class="product-image">
-            <!-- Titre du produit -->
             <h2 id="product-title" class="title is-4">{{ nom }}</h2>
         </div>
 
-        <!-- Zone de saisie -->
-        <div class="field has-addons has-addons-centered mt-5">
-            <div class="control">
-                <input class="input" type="number" placeholder="Entrez votre prix" min="0">
+        <form method="POST" action="/jeu">
+            <input type="hidden" name="code_produit" value="{{ code }}">
+            <input type="hidden" name="nom" value="{{ pseudo }}">
+            <div class="field has-addons has-addons-centered mt-5">
+                <div class="control">
+                    <input class="input" type="number" name="prix" placeholder="Entrez votre prix" min="0" required>
+                </div>
+                <div class="control">
+                    <button class="button is-primary" type="submit">Valider</button>
+                </div>
             </div>
-            <div class="control">
-                <button class="button is-primary">Valider</button>
-            </div>
+        </form>
+        {% if result %}
+        <div class="notification is-info mt-5">
+            {{ result }}
         </div>
+        {% endif %}
     </div>
 
-    <!-- Bouton Dark Mode en bas à droite de la page -->
     <div class="bottom-right">
         <button id="dark-mode-toggle" class="button is-light">Dark Mode</button>
     </div>
