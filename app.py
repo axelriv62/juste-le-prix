@@ -51,6 +51,7 @@ def jeu():
             return render_template('jeu.html', pseudo=pseudo, theme=theme, error="Aucun produit trouvé pour le thème sélectionné.")
     else:
         pseudo = request.form['nom']
+        theme = request.form.get('theme', 'PRODUIT')  # Ensure theme is passed in POST request
         guess = float(request.form['prix'])
         code_produit = request.form['code_produit']
         actual_prix = APIRequest.get_prix(code_produit)
