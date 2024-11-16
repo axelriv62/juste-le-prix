@@ -98,8 +98,10 @@
 
         <form method="POST" action="/jeu">
             <input type="hidden" name="code_produit" value="{{ code }}">
-            <input type="hidden" name="nom" value="{{ pseudo }}">
+            <input type="hidden" name="pseudo" value="{{ pseudo }}">
             <input type="hidden" name="theme" value="{{ theme }}">
+            <input type="hidden" name="image" value="{{ image }}">
+            <input type="hidden" name="nom" value="{{ nom }}">
             <div class="field has-addons has-addons-centered mt-5">
                 <div class="control">
                     <input class="input" type="text" name="prix" placeholder="Entrez votre prix" min="0" required>

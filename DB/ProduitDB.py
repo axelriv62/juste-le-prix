@@ -107,5 +107,7 @@ def get_produit(theme):
 
     return produit
 
+
+
 # creer_table()
 # remplir_produits()
