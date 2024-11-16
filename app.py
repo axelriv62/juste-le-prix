@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
 import APIRequest
 import sqlite3
-from APIRequest import get_random_product
+from DB import ProduitDB
 
 app = Flask(__name__)
 
@@ -18,21 +18,15 @@ def index():
 def jeu():
     if request.method == 'GET':
         pseudo = request.args.get('pseudo')
-        theme = request.args.get('theme', 'PRODUIT')
+        theme = request.args.get('theme', '')
         if not pseudo:
             return redirect(url_for('index'))
 
-        conn = sqlite3.connect('DB/ma_db.db')
+        product_data = ProduitDB.get_produit(theme)
+        conn = sqlite3.connect('DB/database.db')
         c = conn.cursor()
         try:
-            c.execute(f"""
-                SELECT p.produit_code, p.nom, p.image, p.prix
-                FROM {theme} t
-                JOIN PRODUIT p ON t.produit_code = p.produit_code
-                ORDER BY RANDOM() LIMIT 1
-            """)
-            product_data = c.fetchone()
-            c.execute("SELECT score FROM Player WHERE player_name = ?", (pseudo,))
+            c.execute("SELECT score FROM JOUEUR WHERE nom = ?", (pseudo,))
             player_data = c.fetchone()
         except sqlite3.Error as e:
             print(f"Database error: {e}")
@@ -51,7 +45,7 @@ def jeu():
             return render_template('jeu.html', pseudo=pseudo, theme=theme, error="Aucun produit trouvé pour le thème sélectionné.")
     else:
         pseudo = request.form['nom']
-        theme = request.form.get('theme', 'PRODUIT')  # Ensure theme is passed in POST request
+        theme = request.form.get('theme', '')  # Ensure theme is passed in POST request
         guess = float(request.form['prix'])
         code_produit = request.form['code_produit']
         actual_prix = APIRequest.get_prix(code_produit)
