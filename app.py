@@ -1,71 +1,82 @@
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for
 import APIRequest
 import sqlite3
-from APIRequest import get_random_product
+from DB import ProduitDB
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
+
+
+@app.route('/', methods=['GET','POST'])
 def index():
     if request.method == 'POST':
         pseudo = request.form['pseudo']
-        if not pseudo:
-            return redirect(url_for('index'))
-        return redirect(url_for('jeu', pseudo=pseudo))
+        return redirect(url_for('jeu_get', pseudo=pseudo))
     return render_template('index.html')
 
-@app.route('/jeu', methods=['GET', 'POST'])
-def jeu():
-    if request.method == 'GET':
-        pseudo = request.args.get('pseudo')
-        theme = request.args.get('theme', 'PRODUIT')
-        if not pseudo:
-            return redirect(url_for('index'))
 
-        conn = sqlite3.connect('DB/ma_db.db')
-        c = conn.cursor()
-        try:
-            c.execute(f"""
-                SELECT p.produit_code, p.nom, p.image, p.prix
-                FROM {theme} t
-                JOIN PRODUIT p ON t.produit_code = p.produit_code
-                ORDER BY RANDOM() LIMIT 1
-            """)
-            product_data = c.fetchone()
-            c.execute("SELECT score FROM Player WHERE player_name = ?", (pseudo,))
-            player_data = c.fetchone()
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return render_template('jeu.html', pseudo=pseudo, theme=theme, error="Erreur de base de données.")
-        finally:
-            conn.close()
 
-        if product_data:
-            product_code, nom, image, prix = product_data
-            if player_data:
-                score = player_data[0]
-            else:
-                score = 0
-            return render_template('jeu.html', pseudo=pseudo, theme=theme, score=score, image=image, nom=nom, prix=prix, code=product_code)
-        else:
-            return render_template('jeu.html', pseudo=pseudo, theme=theme, error="Aucun produit trouvé pour le thème sélectionné.")
+@app.route('/jeu', methods=['GET'])
+def jeu_get():
+
+    # Récupérer le pseudo et le thème en paramètres
+    pseudo = request.args.get('pseudo')
+    theme = request.args.get('theme', '')
+
+    # Récupérer les données du produit
+    code_produit, nom_produit, image, prix = ProduitDB.get_produit(theme)
+
+    # TODO: Gérer la récupération des données du joueur une fois que le traitement des données des joueurs est implémenté
+    # Récupérer les données du joueur (pas intérréssant pour le moment car on ne gère pas les données des joueurs)
+    conn = sqlite3.connect('DB/database.db')
+    c = conn.cursor()
+    try:
+        c.execute("SELECT score FROM JOUEUR WHERE pseudo = ?", (pseudo,))
+        player_data = c.fetchone()
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        return render_template('jeu.html', pseudo=pseudo, theme=theme, error="Erreur de base de données.")
+    finally:
+        conn.close()
+
+    # Afficher le jeu avec les données récupérées
+    if player_data:
+        score = player_data[0]
     else:
-        pseudo = request.form['nom']
-        theme = request.form.get('theme', 'PRODUIT')  # Ensure theme is passed in POST request
-        guess = float(request.form['prix'])
-        code_produit = request.form['code_produit']
-        actual_prix = APIRequest.get_prix(code_produit)
+        score = 0
 
-        if guess < actual_prix:
-            result = "C'est plus !"
-        elif guess > actual_prix:
-            result = "C'est moins !"
-        else:
-            result = "Félicitations! Vous avez trouvé le juste prix!"
+    return render_template('jeu.html', pseudo=pseudo, theme=theme, score=score, image=image, nom=nom_produit, prix=prix, code=code_produit)
 
-        image = APIRequest.get_image(code_produit)
-        nom = APIRequest.get_nom(code_produit)
-        return render_template('jeu.html', pseudo=pseudo, theme=theme, image=image, nom=nom, prix=actual_prix, code=code_produit, result=result)
+
+
+@app.route('/jeu', methods=['POST'])
+def jeu_post():
+
+    # Récupérer les données
+    pseudo = request.form['pseudo']
+    theme = request.form.get('theme', '')
+    guess = float(request.form['prix'])
+    code_produit = request.form['code_produit']
+    image = request.form['image']
+    nom_produit = request.form['nom']
+
+    # Récupérer le prix actuel du produit
+    actual_prix = APIRequest.get_prix(code_produit)
+
+    # Comparer le prix du produit avec le prix proposé par le joueur
+    if guess < actual_prix:
+        result = "C'est plus !"
+    elif guess > actual_prix:
+        result = "C'est moins !"
+    else:
+        result = "Félicitations! Vous avez trouvé le juste prix!"
+        # TODO: Incrémenter le score du joueur
+
+    # TODO: Insérer la partie du joueur dans la base de données
+
+    return render_template('jeu.html', pseudo=pseudo, theme=theme, image=image, nom=nom_produit, prix=actual_prix, code=code_produit, result=result)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
