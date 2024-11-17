@@ -144,6 +144,12 @@
     }
     window.onload = setSelectedTheme;
 
+    // Redirection après avoir trouvé le juste prix
+    {% if correct_guess %}
+        setTimeout(function() {
+            window.location.href = "{{ url_for('jeu_get', pseudo=pseudo, theme=theme) | safe}}";
+        }, 3000);
+    {% endif %}
 </script>
 </body>
 </html>

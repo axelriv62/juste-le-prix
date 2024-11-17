@@ -27,28 +27,6 @@ def jeu_get():
     # Récupérer les données du produit
     code_produit, nom_produit, image, prix = ProduitDB.get_produit(theme)
 
-    # TODO: Gérer la récupération des données du joueur une fois que le traitement des données des joueurs est implémenté
-    # Récupérer les données du joueur (pas intérréssant pour le moment car on ne gère pas les données des joueurs)
-    """
-    conn = sqlite3.connect('DB/database.db')
-    c = conn.cursor()
-    try:
-        c.execute("SELECT score FROM JOUEUR WHERE pseudo = ?", (pseudo,))
-        player_data = c.fetchone()
-    except sqlite3.Error as e:
-        print(f"Database error: {e}")
-        return render_template('jeu.html', pseudo=pseudo, theme=theme, error="Erreur de base de données.")
-    finally:
-        conn.close()
-    
-    
-    # Afficher le jeu avec les données récupérées
-    if player_data:
-        score = player_data[0]
-    else:
-        score = 0
-    """
-
     session['nb_essais'] = 0
 
     return render_template('jeu.html', pseudo=pseudo, theme=theme, score=0, image=image, nom=nom_produit, prix=prix, code=code_produit)
@@ -76,12 +54,15 @@ def jeu_post():
     if guess < actual_prix:
         result = "C'est plus !"
         nb_essais += 1
+        correct_guess = False
     elif guess > actual_prix:
         result = "C'est moins !"
         nb_essais += 1
+        correct_guess = False
     else:
-        result = "Félicitations! Vous avez trouvé le juste prix!"
+        result = "Félicitations ! Vous avez trouvé le juste prix ! Essayez de deviner le suivant..."
         nb_essais += 1
+        correct_guess = True
 
         # Insérer la partie du joueur dans la base de données
         PartieDB.inserer_partie(pseudo, nb_essais, code_produit)
@@ -89,9 +70,7 @@ def jeu_post():
     # Mettre à jour le nombre d'essais restants
     session['nb_essais'] = nb_essais
 
-    return render_template('jeu.html', pseudo=pseudo, score=nb_essais, theme=theme, image=image, nom=nom_produit, prix=actual_prix, code=code_produit, result=result)
-
-
+    return render_template('jeu.html', pseudo=pseudo, score=nb_essais, theme=theme, image=image, nom=nom_produit, code=code_produit, result=result, correct_guess=correct_guess)
 
 if __name__ == '__main__':
     app.run(debug=True)
