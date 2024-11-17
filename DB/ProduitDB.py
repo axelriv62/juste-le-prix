@@ -109,5 +109,23 @@ def get_produit(theme):
 
 
 
+# Fonction pour récupérer le prix d'un produit en fonction de son code
+def get_prix(code):
+
+    # Connexion à la base de données
+    conn = sqlite3.connect('DB/database.db')
+    cur = conn.cursor()
+
+    # Récupérer le prix du produit
+    cur.execute("SELECT prix FROM PRODUIT WHERE code = ?", (code,))
+    prix = float(cur.fetchone()[0])
+
+    # Fermer la connexion
+    conn.close()
+
+    return prix
+
+
+
 # creer_table()
 # remplir_produits()

@@ -56,6 +56,12 @@
             bottom: 20px;
             right: 20px;
         }
+
+        .score {
+            margin-top: 10px;
+            margin-left: 20px;
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -109,6 +115,7 @@
                 <div class="control">
                     <button class="button is-primary" type="submit">Valider</button>
                 </div>
+                <p class="score">Score : {{ score }}</p>
             </div>
         </form>
         {% if result %}
@@ -141,6 +148,12 @@
     }
     window.onload = setSelectedTheme;
 
+    // Redirection après avoir trouvé le juste prix
+    {% if correct_guess %}
+        setTimeout(function() {
+            window.location.href = "{{ url_for('jeu_get', pseudo=pseudo, theme=theme) | safe}}";
+        }, 3000);
+    {% endif %}
 </script>
 </body>
 </html>

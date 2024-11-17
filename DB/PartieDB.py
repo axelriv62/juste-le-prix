@@ -8,11 +8,12 @@ def creer_table():
     cur = con.cursor()
 
     # Suppression de la table si elle existe
-    cur.execute("DROP TABLE IF EXISTS JOUEUR")
+    cur.execute("DROP TABLE IF EXISTS PARTIE")
 
     # Création de la table
-    cur.execute("""CREATE TABLE IF NOT EXISTS JOUEUR (
-        pseudo VARCHAR(100) PRIMARY KEY,
+    cur.execute("""CREATE TABLE IF NOT EXISTS PARTIE (
+        id_partie INTEGER PRIMARY KEY AUTOINCREMENT,
+        pseudo VARCHAR(100),
         score INTEGER NOT NULL,
         code_produit VARCHAR(10) NOT NULL,
         FOREIGN KEY(code_produit) REFERENCES PRODUIT(code)
@@ -26,15 +27,15 @@ def creer_table():
 
 
 
-# Fonction pour insérer un nouveau joueur
-def inserer_joueur(pseudo, score, code_produit):
+# Fonction pour insérer une nouvelle partie
+def inserer_partie(pseudo, score, code_produit):
 
     # Connexion à la base de données
     con = sqlite3.connect('DB/database.db')
     cur = con.cursor()
 
-    # Insertion du joueur
-    cur.execute("INSERT INTO JOUEUR VALUES (?, ?, ?)", (pseudo, score, code_produit))
+    # Insertion de la partie
+    cur.execute("INSERT INTO PARTIE (pseudo, score, code_produit) VALUES (?, ?, ?)", (pseudo, score, code_produit))
 
     # Commit les changements
     con.commit()
@@ -52,7 +53,7 @@ def get_joueurs(pseudo):
     cur = con.cursor()
 
     # Récupération des logs du joueur
-    cur.execute("SELECT * FROM JOUEUR WHERE pseudo = ?", (pseudo,))
+    cur.execute("SELECT * FROM PARTIE WHERE pseudo = ?", (pseudo,))
     joueurs = cur.fetchall()
 
     # Fermer la connexion
@@ -70,7 +71,7 @@ def delete_joueur(pseudo, code_produit):
     cur = con.cursor()
 
     # Suppression du joueur
-    cur.execute("DELETE FROM JOUEUR WHERE pseudo = ? AND code_produit = ?", (pseudo, code_produit))
+    cur.execute("DELETE FROM PARTIE WHERE pseudo = ? AND code_produit = ?", (pseudo, code_produit))
 
     # Commit les changements
     con.commit()
@@ -81,4 +82,3 @@ def delete_joueur(pseudo, code_produit):
 
 
 # creer_table()
-# inserer_joueur("Joueur1", 10, "B07YQFZ6CJ")
