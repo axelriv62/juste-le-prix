@@ -19,7 +19,7 @@
             padding: 2rem;
         }
         .logo-image {
-            width: 200px;
+            width: 170px;
             height: auto;
         }
         .product-image {
@@ -62,39 +62,50 @@
             margin-left: 20px;
             font-size: 1rem;
         }
+
+        .dark-mode .score {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
 <section class="section">
     <div class="container">
-        <div class="columns">
+        <div class="columns is-vcentered">
             <div class="column is-narrow">
                 <a href="{{ url_for('index') }}">
                     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo du Juste Prix" class="logo-image">
                 </a>
             </div>
-        </div>
-
-        <div class="box has-text-centered">
-            <h1 class="title">Bienvenue, {{ pseudo }}</h1>
-        </div>
-
-        <div class="box has-text-centered">
-            <form id="theme-form" action="/jeu" method="get">
-                <input type="hidden" name="pseudo" value="{{ pseudo }}">
-                <div class="field">
-                    <label class="label">Sélectionnez un thème:</label>
-                    <div class="control">
-                        <div class="select">
-                            <select name="theme" id="theme-select" onchange="document.getElementById('theme-form').submit()">
-                                <option value="">Général</option>
-                                <option value="Textile">Textile</option>
-                                <option value="Multimedia">Multimédia</option>
-                            </select>
+            <div class="column">
+                <div class="columns is-vcentered">
+                    <div class="column is-half has-text-left">
+                        <div class="box has-text-centered">
+                            <h1 class="title">Bienvenue, {{ pseudo }}</h1>
+                            <p class="score">Score : {{ score }}</p>
+                        </div>
+                    </div>
+                    <div class="column is-half has-text-right">
+                        <div class="box has-text-centered">
+                            <form id="theme-form" action="/jeu" method="get">
+                                <input type="hidden" name="pseudo" value="{{ pseudo }}">
+                                <div class="field">
+                                    <label class="label">Sélectionnez un thème:</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select name="theme" id="theme-select" onchange="document.getElementById('theme-form').submit()">
+                                                <option value="">Général</option>
+                                                <option value="Textile">Textile</option>
+                                                <option value="Multimedia">Multimédia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
 
         <div id="product-info" class="box has-text-centered">
@@ -115,7 +126,6 @@
                 <div class="control">
                     <button class="button is-primary" type="submit">Valider</button>
                 </div>
-                <p class="score">Score : {{ score }}</p>
             </div>
         </form>
         {% if result %}
