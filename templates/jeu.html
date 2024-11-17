@@ -138,7 +138,16 @@
         this.classList.toggle('is-dark');
         this.classList.toggle('is-light');
         this.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
     });
+
+    // Application du mode sombre si l'utilisateur l'avait activé
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('dark-mode-toggle').classList.add('is-dark');
+        document.getElementById('dark-mode-toggle').classList.remove('is-light');
+        document.getElementById('dark-mode-toggle').textContent = 'Light Mode';
+    }
 
     // Gestion de la catégorie des produits
     function setSelectedTheme() {
