@@ -1,9 +1,10 @@
-from flask import Flask, request, render_template, redirect, url_for
-import APIRequest
-import sqlite3
-from DB import ProduitDB
+from flask import Flask, request, render_template, redirect, url_for, session
+from DB import ProduitDB, PartieDB
 
 app = Flask(__name__)
+
+# Clé secrète de session (ça permet de stocker les informations de la session en cours, notamment le score du joueur)
+app.secret_key = 'ekip_abcq'
 
 
 
@@ -28,6 +29,7 @@ def jeu_get():
 
     # TODO: Gérer la récupération des données du joueur une fois que le traitement des données des joueurs est implémenté
     # Récupérer les données du joueur (pas intérréssant pour le moment car on ne gère pas les données des joueurs)
+    """
     conn = sqlite3.connect('DB/database.db')
     c = conn.cursor()
     try:
@@ -38,14 +40,18 @@ def jeu_get():
         return render_template('jeu.html', pseudo=pseudo, theme=theme, error="Erreur de base de données.")
     finally:
         conn.close()
-
+    
+    
     # Afficher le jeu avec les données récupérées
     if player_data:
         score = player_data[0]
     else:
         score = 0
+    """
 
-    return render_template('jeu.html', pseudo=pseudo, theme=theme, score=score, image=image, nom=nom_produit, prix=prix, code=code_produit)
+    session['nb_essais'] = 0
+
+    return render_template('jeu.html', pseudo=pseudo, theme=theme, score=0, image=image, nom=nom_produit, prix=prix, code=code_produit)
 
 
 
@@ -60,21 +66,30 @@ def jeu_post():
     image = request.form['image']
     nom_produit = request.form['nom']
 
-    # Récupérer le prix actuel du produit
-    actual_prix = APIRequest.get_prix(code_produit)
+    # Récupérer le prix du produit
+    actual_prix = ProduitDB.get_prix(code_produit)
+
+    # Récupérer le nombre d'essais restants
+    nb_essais = session.get('nb_essais', 0)
 
     # Comparer le prix du produit avec le prix proposé par le joueur
     if guess < actual_prix:
         result = "C'est plus !"
+        nb_essais += 1
     elif guess > actual_prix:
         result = "C'est moins !"
+        nb_essais += 1
     else:
         result = "Félicitations! Vous avez trouvé le juste prix!"
-        # TODO: Incrémenter le score du joueur
+        nb_essais += 1
 
-    # TODO: Insérer la partie du joueur dans la base de données
+        # Insérer la partie du joueur dans la base de données
+        PartieDB.inserer_partie(pseudo, nb_essais, code_produit)
 
-    return render_template('jeu.html', pseudo=pseudo, theme=theme, image=image, nom=nom_produit, prix=actual_prix, code=code_produit, result=result)
+    # Mettre à jour le nombre d'essais restants
+    session['nb_essais'] = nb_essais
+
+    return render_template('jeu.html', pseudo=pseudo, score=nb_essais, theme=theme, image=image, nom=nom_produit, prix=actual_prix, code=code_produit, result=result)
 
 
 
