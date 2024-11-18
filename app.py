@@ -9,6 +9,7 @@ Cela permet dans notre cas de stocker le score du joueur entre jeu_get et jeu_po
 """
 app.secret_key = 'ekip_abcq'
 
+
 @app.route('/', methods=['GET','POST'])
 def index():
     """
@@ -92,8 +93,8 @@ def jeu_post():
         session['score'] += 1
         correct_guess = True
 
-    # Insérer la partie dans la base de données
-    PartieDB.inserer_partie(pseudo, session['score'], code_produit)
+        # Insérer la partie dans la base de données
+        PartieDB.inserer_partie(pseudo, session['score'], code_produit)
 
     return render_template(
         'jeu.html',
@@ -118,6 +119,7 @@ def insertion_get():
     """
     return render_template('insertion.html')
 
+
 @app.route('/insertion', methods=['POST'])
 def insertion_post():
     """
@@ -139,12 +141,19 @@ def insertion_post():
         return render_template('insertion.html', error=f"Erreur lors de l'insertion du produit: {str(e)}")
 
     return redirect(url_for('insertion_get'))
+
+
 @app.route('/scores', methods=['GET'])
 def afficher_scores():
+    """
+    Route pour la page des scores avec la requête GET.
+    Récupère les scores des parties et les affiche.
+
+    :return: La template scores.html avec les scores récupérés.
+    """
     try:
-        from DB.PartieDB import get_scores
-        scores = get_scores()
-        scores_enum = list(enumerate(scores, start=1))  # Associe un index en Python
+        scores = PartieDB.get_scores()
+        scores_enum = list(enumerate(scores, start=1))
     except Exception as e:
         scores_enum = []
         print(f"Erreur lors de la récupération des scores: {e}")
