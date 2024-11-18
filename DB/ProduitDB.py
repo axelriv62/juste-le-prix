@@ -63,7 +63,7 @@ def inserer_produit(code, theme):
         json = response.json()
 
         try:
-            prix = json.get("price").replace("€", "").replace(",", ".")
+            prix = json.get("price").replace("€", "").replace(",", ".").replace(" ", "")
         except:
             return "Le produit n'existe pas ou n'a pas de prix"
 
@@ -86,14 +86,49 @@ def remplir_produits():
     Remplit la table PRODUIT avec des produits pré-enregistrés.
     """
 
+    # Produits Textile
+    inserer_produit("B00NYZQYQM", "Textile")
+    inserer_produit("B08H4BNGQ2", "Textile")
+    inserer_produit("B09QBZPZCY", "Textile")
+    inserer_produit("B092CXJHHK", "Textile")
+    inserer_produit("B0D3QP4VJM", "Textile")
+    inserer_produit("B0D4VKVTRS", "Textile")
+    inserer_produit("B07581N19R", "Textile")
+    inserer_produit("B00HZH71AS", "Textile")
+    inserer_produit("B0DLN76F7G", "Textile")
+    inserer_produit("B0DBZ12YR9", "Textile")
+    inserer_produit("B0DFWFJD9K", "Textile")
+    inserer_produit("B06W2LXPT5", "Textile")
+    inserer_produit("B08T1QXLVJ", "Textile")
+    inserer_produit("B08J7QKPL8", "Textile")
+
+
+    # Produits Multimedia
+    inserer_produit("B09G9HWQYT", "Multimedia")
+    inserer_produit("B0CXPQKHR3", "Multimedia")
+    inserer_produit("B0875VYRPB", "Multimedia")
+    inserer_produit("B0CR97B5Q9", "Multimedia")
+    inserer_produit("B0D6GPGZ2K", "Multimedia")
+    inserer_produit("B07D7TV5J3", "Multimedia")
+    inserer_produit("B0C85Z1TJ1", "Multimedia")
+    inserer_produit("B01LXLFF6H", "Multimedia")
+    inserer_produit("B07965NDW7", "Multimedia")
+    inserer_produit("B07RK9N3WM", "Multimedia")
+    inserer_produit("B098RJXBTY", "Multimedia")
+    inserer_produit("B0B5PKW138", "Multimedia")
+
+    # Produits sans thème
     inserer_produit("B07YQFZ6CJ", "")
     inserer_produit("B0C8J2Y93P", "")
     inserer_produit("B08F5834R7", "")
+    inserer_produit("B0CGZYP1BS", "")
+    inserer_produit("B0DKDX9PNX", "")
+    inserer_produit("B09SNRM3BL", "")
+    inserer_produit("B00GBYZ5BS", "")
+
     # inserer_produit("B08W9JJB76", "Textile") # plus de prix
-    inserer_produit("B08T1QXLVJ", "Textile")
-    inserer_produit("B08J7QKPL8", "Textile")
-    inserer_produit("B098RJXBTY", "Multimedia")
-    inserer_produit("B0B5PKW138", "Multimedia")
+
+
 
 def get_produit(theme):
     """

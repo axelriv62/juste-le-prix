@@ -71,9 +71,9 @@
             position: fixed;
             bottom: 20px;
             left: 20px;
-            width: 300px; /* Ajustez la taille selon vos besoins */
+            width: 300px;
             height: auto;
-            z-index: 1000; /* Assurez-vous que l'image passe au-dessus de tout */
+            z-index: 1000;
         }
 
         .centered-image {
@@ -81,9 +81,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 1300px; /* Ajustez la taille selon vos besoins */
+            width: 1300px;
             height: auto;
-            z-index: 1000; /* Assurez-vous que l'image passe au-dessus de tout */
+            z-index: 1000;
         }
 
         .left-image {
@@ -173,8 +173,10 @@
         {% endif %}
     </div>
 
+    <!-- Bouton Dark Mode et lien vers le tableau des scores -->
     <div class="bottom-right">
         <button id="dark-mode-toggle" class="button is-light">Dark Mode</button>
+        <a href="{{ url_for('afficher_scores') }}" class="button is-light">Voir le tableau des scores</a>
     </div>
 </section>
 
