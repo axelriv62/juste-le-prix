@@ -5,34 +5,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau des scores</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .dark-mode .section {
+            background-color: #1e1e1e;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .table {
+            background-color: #333333;
+            color: #ffffff;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .dark-mode .table tr {
+            background-color: #2a2a2a;
+        }
+
+        .dark-mode .table tr + tr {
+            border-top: 2px solid #ffffff;
+        }
+
+        .dark-mode .button {
+            background-color: #333333;
+            color: #ffffff;
+            border: none;
+        }
+
+        .dark-mode .button:hover {
+            background-color: #444444;
+            border: none;
+        }
+
+        .bottom-right {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s;
+            background-color: #444444;
+            border: none;
+        }
+
+        .dark-mode .button.is-light:hover {
+            color: #ffffff;
+        }
+
+        .dark-mode .title, .dark-mode th {
+            color: #ffffff;
+        }
+
+        .dark-mode .legend {
+            color: #ffffff;
+        }
+
+        .logo-image {
+            width: 170px;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
 <section class="section">
     <div class="container">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo du Juste Prix" class="logo-image">
+        </a>
         <h1 class="title">Tableau des Scores</h1>
-        <table class="table is-striped is-fullwidth">
+        <table class="table is-fullwidth">
             <thead>
-                <tr>
-                    <th>Rang</th>
-                    <th>Pseudo</th>
-                    <th>Score</th>
-                    <th>Code Produit</th>
-                </tr>
+            <tr>
+                <th class="legend">Rang</th>
+                <th class="legend">Pseudo</th>
+                <th class="legend">Score</th>
+                <th class="legend">Code Produit</th>
+            </tr>
             </thead>
             <tbody>
-                {% for index, score in scores_enum %}
+            {% for index, score in scores_enum %}
                 <tr>
                     <td>{{ index }}</td>
                     <td>{{ score[0] }}</td>
                     <td>{{ score[1] }}</td>
                     <td>{{ score[2] }}</td>
                 </tr>
-                {% endfor %}
-            </tbody>
+            {% endfor %}
             </tbody>
         </table>
-        <a href="{{ url_for('index') }}" class="button is-primary">Retour à l'accueil</a>
+    </div>
+    <div class="bottom-right">
+        <button id="dark-mode-toggle" class="button is-light">Dark Mode</button>
+        <a href="{{ url_for('index') }}" class="button is-light">Retour à l'accueil</a>
     </div>
 </section>
+
+<script>
+    // Gestion du thème de l'application
+    document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        this.classList.toggle('is-dark');
+        this.classList.toggle('is-light');
+        this.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
+    // Application du mode sombre si l'utilisateur l'avait activé
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('dark-mode-toggle').classList.add('is-dark');
+        document.getElementById('dark-mode-toggle').classList.remove('is-light');
+        document.getElementById('dark-mode-toggle').textContent = 'Light Mode';
+    }
+</script>
 </body>
 </html>
