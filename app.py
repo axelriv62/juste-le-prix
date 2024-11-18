@@ -139,13 +139,6 @@ def insertion_post():
         return render_template('insertion.html', error=f"Erreur lors de l'insertion du produit: {str(e)}")
 
     return redirect(url_for('insertion_get'))
-
-
-if __name__ == '__main__':
-    """
-    Point d'entrée principal de l'application.
-    Exécute l'application Flask en mode débogage.
-    """
 @app.route('/scores', methods=['GET'])
 def afficher_scores():
     try:
@@ -159,4 +152,9 @@ def afficher_scores():
     return render_template('scores.html', scores_enum=scores_enum)
 
 
+if __name__ == '__main__':
+    """
+    Point d'entrée principal de l'application.
+    Exécute l'application Flask en mode débogage.
+    """
     app.run(debug=True)

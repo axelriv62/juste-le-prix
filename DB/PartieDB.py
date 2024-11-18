@@ -119,7 +119,7 @@ def get_scores():
     cur = con.cursor()
 
     # Récupérer tous les scores classés par score décroissant
-    cur.execute("SELECT pseudo, score, code_produit FROM PARTIE ORDER BY score DESC")
+    cur.execute("SELECT pseudo, score, code_produit FROM PARTIE ORDER BY score")
     scores = cur.fetchall()
 
     # Fermer la connexion
