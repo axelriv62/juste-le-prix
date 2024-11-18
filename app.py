@@ -80,14 +80,20 @@ def jeu_post():
 
     # Déterminer le résultat
     if guess < actual_prix:
+        session['score'] += 1
         result_image = "plus.png"
         correct_guess = False
     elif guess > actual_prix:
         result_image = "moins.png"
+        session['score'] += 1
         correct_guess = False
     else:
         result_image = "correct.png"
+        session['score'] += 1
         correct_guess = True
+
+    # Insérer la partie dans la base de données
+    PartieDB.inserer_partie(pseudo, session['score'], code_produit)
 
     return render_template(
         'jeu.html',
