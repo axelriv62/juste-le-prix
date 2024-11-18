@@ -105,10 +105,11 @@
     <div class="bottom-right">
         <button id="dark-mode-toggle" class="button is-light">Dark Mode</button>
     </div>
+    <!-- Son de bienvenue -->
+    <audio id="welcome-sound" src="{{ url_for('static', filename='sound/bienvenue.mp3') }}" preload="auto"></audio>
 </section>
 
 <script>
-
     // Gestion du thème de l'application
     document.getElementById('dark-mode-toggle').addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
@@ -126,6 +127,15 @@
         document.getElementById('dark-mode-toggle').textContent = 'Light Mode';
     }
 
+    // Jouer le son de bienvenue lors de la soumission du formulaire
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Empêche la soumission immédiate du formulaire
+        var audio = document.getElementById('welcome-sound');
+        audio.play();
+        audio.onended = function() {
+            event.target.submit(); // Soumet le formulaire après la fin du son
+        };
+    });
 </script>
 </body>
 </html>
