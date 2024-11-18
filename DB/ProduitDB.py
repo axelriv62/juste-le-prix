@@ -31,28 +31,45 @@ def creer_table():
 # Fonction pour insérer un nouveau produit
 def inserer_produit(code, theme):
 
+    if len(code) < 10:
+        return "Le code du produit doit être composé de 10 caractères"
+
     # Connexion à la base de données
     con = sqlite3.connect("DB/database.db")
     cur = con.cursor()
 
+    cur.execute("SELECT * FROM PRODUIT WHERE code = ?", (code,))
+    produit = cur.fetchone()
+    if produit:
+        return "Ce produit existe déjà dans la base de données"
+
     # Récupérer les données du produit depuis l'API
     url = "http://ws.chez-wam.info/" + code
     response = requests.get(url)
+
+
     if response.status_code == 200:
         json = response.json()
+
+        try:
+            prix = json.get("price").replace("€", "").replace(",", ".")
+        except:
+            return "Le produit n'existe pas ou n'a pas de prix"
+
         nom = json.get("title")
-        prix = json.get("price").replace("€", "").replace(",", ".")
         image = json.get("images")[0]
 
-        print(f"Récupération des données pour le code produit {code}: title={nom}, price={prix}, image={image}, theme={theme}")
-
+        # Insérer le produit dans la base de données
         cur.execute("INSERT OR IGNORE INTO PRODUIT (code, nom, image, prix, theme) VALUES (?, ?, ?, ?, ?)", (code, nom, image, prix, theme))
         con.commit()
+
     else:
-        print(f"Échec de la récupération des données pour le code produit: {code}")
+        return "Erreur de connexion à l'API"
 
     # Fermer la connexion
     con.close()
+
+    return None
 
 
 
