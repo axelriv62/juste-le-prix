@@ -100,5 +100,18 @@ def insertion_post():
     return redirect(url_for('insertion_get'))
 
 
+@app.route('/scores', methods=['GET'])
+def afficher_scores():
+    try:
+        from DB.PartieDB import get_scores
+        scores = get_scores()
+        scores_enum = list(enumerate(scores, start=1))  # Associe un index en Python
+    except Exception as e:
+        scores_enum = []
+        print(f"Erreur lors de la récupération des scores: {e}")
+
+    return render_template('scores.html', scores_enum=scores_enum)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
