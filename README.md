@@ -40,3 +40,6 @@
 
 * Création du programme principal :
   - Gestion des requetes à l'api ws.chez-wam.info
+
+
+tuto de comment utiliser et lancer l'appli, partie ou on met tout ce qui a été fait dans l'appli avec des screen (toutes les features), décrire les sprintbacklog etc, quel workflow on a utilisé(screen des branches, les issues
