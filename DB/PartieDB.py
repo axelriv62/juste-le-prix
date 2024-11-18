@@ -113,6 +113,18 @@ def delete_joueur(pseudo, code_produit):
     # Fermer la connexion
     con.close()
 
+def get_scores():
+    # Connexion à la base de données
+    con = sqlite3.connect('DB/database.db')
+    cur = con.cursor()
 
+    # Récupérer tous les scores classés par score décroissant
+    cur.execute("SELECT pseudo, score, code_produit FROM PARTIE ORDER BY score")
+    scores = cur.fetchall()
+
+    # Fermer la connexion
+    con.close()
+
+    return scores
 
 # creer_table()

@@ -111,6 +111,7 @@
     <!-- Bouton Dark Mode dans le coin en bas à droite -->
     <div class="bottom-right">
         <button id="dark-mode-toggle" class="button is-light">Dark Mode</button>
+        <a href="{{ url_for('afficher_scores') }}" class="button is-info">Voir le tableau des scores</a>
     </div>
     <!-- Son de bienvenue -->
     <audio id="welcome-sound" src="{{ url_for('static', filename='sound/bienvenue.mp3') }}" preload="auto"></audio>
