@@ -74,6 +74,10 @@
         .dark-mode .label, .dark-mode .title, .dark-mode .control {
             color: #ffffff;
         }
+
+        .dark-mode ::placeholder {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -82,8 +86,42 @@
         <div class="columns is-vcentered">
             <div class="column has-text-centered">
                 <figure class="image mx-auto logo-image">
-                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo du Juste Prix">
+                    <a href="{{ url_for('index') }}">
+                        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo du Juste Prix" class="logo-image">
+                    </a>
                 </figure>
+                <form method="POST" action="/insertion">
+                    <div class="field">
+                        <label class="label" for="product-code">Code du produit :</label>
+                        <div class="control">
+                            <input class="input" type="text" id="product-code" name="code" placeholder="Code du produit" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="product-theme">Thème du produit :</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="theme" id="theme-select" onchange="document.getElementById('theme-form').submit()">
+                                    <option value="">Général</option>
+                                    <option value="Textile">Textile</option>
+                                    <option value="Multimedia">Multimédia</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button class="button is-link is-large is-fullwidth mt-3" type="submit">Valider</button>
+                    </div>
+
+                </form>
+                <a href="{{ url_for('index') }}">
+                    <button class="button is-link is-large is-fullwidth mt-3">Retourner à l'accueil</button>
+                </a>
+                {% if error %}
+                    <div class="notification is-danger mt-5">
+                        {{ error }}
+                    </div>
+                {% endif %}
             </div>
             <div class="column has-text-centered">
                 <figure class="image swing large-image mx-auto">
@@ -92,36 +130,6 @@
             </div>
         </div>
     </div>
-    <div>
-         <form method="POST" action="/insertion">
-            <div class="field">
-                <label class="label" for="product-code">Code du produit :</label>
-                <div class="control">
-                    <input class="input" type="text" id="product-code" name="code" placeholder="Code du produit" required>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label" for="product-theme">Thème du produit :</label>
-                <div class="control">
-                    <div class="select">
-                            <select name="theme" id="theme-select" onchange="document.getElementById('theme-form').submit()">
-                                <option value="">Général</option>
-                                <option value="Textile">Textile</option>
-                                <option value="Multimedia">Multimédia</option>
-                            </select>
-                        </div>
-                </div>
-            </div>
-            <div class="control">
-                <button class="button is-primary" type="submit">Valider</button>
-            </div>
-        </form>
-        {% if error %}
-            <div class="notification is-danger mt-5">
-                {{ error }}
-            </div>
-        {% endif %}
-    </div>
     <!-- Bouton Dark Mode dans le coin en bas à droite -->
     <div class="bottom-right">
         <button id="dark-mode-toggle" class="button is-light">Dark Mode</button>
@@ -129,7 +137,6 @@
 </section>
 
 <script>
-
     // Gestion du thème de l'application
     document.getElementById('dark-mode-toggle').addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
@@ -146,7 +153,6 @@
         document.getElementById('dark-mode-toggle').classList.remove('is-light');
         document.getElementById('dark-mode-toggle').textContent = 'Light Mode';
     }
-
 </script>
 </body>
 </html>
