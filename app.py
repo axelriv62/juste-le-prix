@@ -63,5 +63,26 @@ def jeu_post():
 
     return render_template('jeu.html', pseudo=pseudo, score=session['score'], theme=theme, image=image, nom=nom_produit, code=code_produit, result=result, correct_guess=correct_guess)
 
+
+
+@app.route('/insertion', methods=['GET'])
+def insertion_get():
+    return render_template('insertion.html')
+
+@app.route('/insertion', methods=['POST'])
+def insertion_post():
+    code = request.form['code']
+    theme = request.form['theme']
+
+    try:
+        error = ProduitDB.inserer_produit(code, theme)
+        if error:
+            return render_template('insertion.html', error=error)
+    except Exception as e:
+        return render_template('insertion.html', error=f"Erreur lors de l'insertion du produit: {str(e)}")
+
+    return redirect(url_for('insertion_get'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
