@@ -2,6 +2,12 @@ import sqlite3
 
 # Fonction pour créer la table
 def creer_table():
+    """
+    Crée la table 'PARTIE' dans la base de données.
+    Si la table existe déjà, elle sera supprimée et recréée.
+
+    :return: None
+    """
 
     # Connexion à la base de données
     con = sqlite3.connect("database.db")
@@ -29,6 +35,17 @@ def creer_table():
 
 # Fonction pour insérer une nouvelle partie
 def inserer_partie(pseudo, score, code_produit):
+    """
+    Insère une nouvelle partie dans la table 'PARTIE'.
+
+    :param pseudo: Le pseudo du joueur
+    :type pseudo: str
+    :param score: Le score du joueur
+    :type score: int
+    :param code_produit: Le code du produit associé
+    :type code_produit: str
+    :return: None
+    """
 
     # Connexion à la base de données
     con = sqlite3.connect('DB/database.db')
@@ -47,6 +64,14 @@ def inserer_partie(pseudo, score, code_produit):
 
 # Fonction pour récupérer les logs joueur avec son pseudo
 def get_joueurs(pseudo):
+    """
+    Récupère les logs des parties d'un joueur donné par son pseudo.
+
+    :param pseudo: Le pseudo du joueur
+    :type pseudo: str
+    :return: Une liste de tuples contenant les informations des parties du joueur
+    :rtype: list
+    """
 
     # Connexion à la base de données
     con = sqlite3.connect('DB/database.db')
@@ -65,6 +90,15 @@ def get_joueurs(pseudo):
 
 # Supprime un joueur en cas de besoin avec son pseudo et le code du produit
 def delete_joueur(pseudo, code_produit):
+    """
+    Supprime un joueur de la table 'PARTIE' en fonction de son pseudo et du code produit.
+
+    :param pseudo: Le pseudo du joueur
+    :type pseudo: str
+    :param code_produit: Le code du produit associé
+    :type code_produit: str
+    :return: None
+    """
 
     # Connexion à la base de données
     con = sqlite3.connect('DB/database.db')
