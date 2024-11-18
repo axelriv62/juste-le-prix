@@ -78,6 +78,19 @@
         .dark-mode ::placeholder {
             color: #ffffff;
         }
+        .dark-mode .button.is-light {
+            background-color: #333333;
+            color: #ffffff;
+            border: none;
+        }
+
+        .dark-mode .button.is-light:hover {
+            background-color: #444444;
+            border: none;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -98,7 +111,7 @@
                     <button class="button is-primary is-large is-fullwidth mt-5" type="submit">Rejoindre le jeu</button>
                 </form>
                 <a href="{{ url_for('insertion_get') }}">
-                    <button class="button is-link is-large is-fullwidth mt-3">Insérer un objet</button>
+                    <button class="button is-primary is-large is-fullwidth mt-5">Insérer un objet</button>
                 </a>
             </div>
             <div class="column has-text-centered">
@@ -111,7 +124,7 @@
     <!-- Bouton Dark Mode dans le coin en bas à droite -->
     <div class="bottom-right">
         <button id="dark-mode-toggle" class="button is-light">Dark Mode</button>
-        <a href="{{ url_for('afficher_scores') }}" class="button is-info">Voir le tableau des scores</a>
+        <a href="{{ url_for('afficher_scores') }}" class="button is-light">Voir le tableau des scores</a>
     </div>
     <!-- Son de bienvenue -->
     <audio id="welcome-sound" src="{{ url_for('static', filename='sound/bienvenue.mp3') }}" preload="auto"></audio>
@@ -144,6 +157,8 @@
             event.target.submit(); // Soumet le formulaire après la fin du son
         };
     });
+
+
 </script>
 </body>
 </html>

@@ -78,6 +78,7 @@
         .dark-mode ::placeholder {
             color: #ffffff;
         }
+
     </style>
 </head>
 <body>
@@ -110,12 +111,12 @@
                         </div>
                     </div>
                     <div class="control">
-                        <button class="button is-link is-large is-fullwidth mt-3" type="submit">Valider</button>
+                        <button class="button is-primary is-large is-fullwidth mt-5" type="submit">Valider</button>
                     </div>
 
                 </form>
                 <a href="{{ url_for('index') }}">
-                    <button class="button is-link is-large is-fullwidth mt-3">Retourner à l'accueil</button>
+                    <button class="button is-primary is-large is-fullwidth mt-5">Retourner à l'accueil</button>
                 </a>
                 {% if error %}
                     <div class="notification is-danger mt-5">
@@ -134,6 +135,8 @@
     <div class="bottom-right">
         <button id="dark-mode-toggle" class="button is-light">Dark Mode</button>
     </div>
+
+
 </section>
 
 <script>
@@ -153,6 +156,8 @@
         document.getElementById('dark-mode-toggle').classList.remove('is-light');
         document.getElementById('dark-mode-toggle').textContent = 'Light Mode';
     }
+
+
 </script>
 </body>
 </html>
