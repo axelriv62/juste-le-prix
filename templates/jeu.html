@@ -19,7 +19,7 @@
             padding: 2rem;
         }
         .logo-image {
-            width: 200px;
+            width: 170px;
             height: auto;
         }
         .product-image {
@@ -62,44 +62,89 @@
             margin-left: 20px;
             font-size: 1rem;
         }
+
+        .dark-mode .score {
+            color: #ffffff;
+        }
+
+        .bottom-left-large {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 300px; /* Ajustez la taille selon vos besoins */
+            height: auto;
+            z-index: 1000; /* Assurez-vous que l'image passe au-dessus de tout */
+        }
+
+        .centered-image {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1300px; /* Ajustez la taille selon vos besoins */
+            height: auto;
+            z-index: 1000; /* Assurez-vous que l'image passe au-dessus de tout */
+        }
+
+        .left-image {
+            width: 300px; /* Ajustez la taille selon vos besoins */
+            height: auto;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 <section class="section">
     <div class="container">
-        <div class="columns">
+        <div class="columns is-vcentered">
             <div class="column is-narrow">
                 <a href="{{ url_for('index') }}">
                     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo du Juste Prix" class="logo-image">
                 </a>
             </div>
-        </div>
-
-        <div class="box has-text-centered">
-            <h1 class="title">Bienvenue, {{ pseudo }}</h1>
-        </div>
-
-        <div class="box has-text-centered">
-            <form id="theme-form" action="/jeu" method="get">
-                <input type="hidden" name="pseudo" value="{{ pseudo }}">
-                <div class="field">
-                    <label class="label">Sélectionnez un thème:</label>
-                    <div class="control">
-                        <div class="select">
-                            <select name="theme" id="theme-select" onchange="document.getElementById('theme-form').submit()">
-                                <option value="">Général</option>
-                                <option value="Textile">Textile</option>
-                                <option value="Multimedia">Multimédia</option>
-                            </select>
+            <div class="column">
+                <div class="columns is-vcentered">
+                    <div class="column is-half has-text-left">
+                        <div class="box has-text-centered">
+                            <h1 class="title">Bienvenue, {{ pseudo }} !</h1>
+                            <p class="score">Score : {{ score }}</p>
+                        </div>
+                    </div>
+                    <div class="column is-half has-text-right">
+                        <div class="box has-text-centered">
+                            <form id="theme-form" action="/jeu" method="get">
+                                <input type="hidden" name="pseudo" value="{{ pseudo }}">
+                                <div class="field">
+                                    <label class="label">Sélectionnez un thème:</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select name="theme" id="theme-select" onchange="document.getElementById('theme-form').submit()">
+                                                <option value="">Général</option>
+                                                <option value="Textile">Textile</option>
+                                                <option value="Multimedia">Multimédia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
 
         <div id="product-info" class="box has-text-centered">
-            <img id="product-image" src="{{ image }}" alt="Image du produit" class="product-image">
-            <h2 id="product-title" class="title is-4">{{ nom }}</h2>
+            <div class="columns is-vcentered">
+                <div class="column is-narrow">
+                    {% if result_image in ['plus.png', 'moins.png'] %}
+                        <img src="{{ url_for('static', filename='img/' ~ result_image) }}" alt="Résultat" class="left-image">
+                    {% endif %}
+                </div>
+                <div class="column">
+                    <img id="product-image" src="{{ image }}" alt="Image du produit" class="product-image">
+                    <h2 id="product-title" class="title is-4">{{ nom }}</h2>
+                </div>
+            </div>
         </div>
 
         <form method="POST" action="/jeu">
@@ -110,18 +155,17 @@
             <input type="hidden" name="nom" value="{{ nom }}">
             <div class="field has-addons has-addons-centered mt-5">
                 <div class="control">
-                    <input class="input" type="text" name="prix" placeholder="Entrez votre prix" min="0" required>
+                    <input class="input" type="text" id="prix-input" name="prix" placeholder="Entrez votre prix" min="0" required>
                 </div>
                 <div class="control">
                     <button class="button is-primary" type="submit">Valider</button>
                 </div>
-                <p class="score">Score : {{ score }}</p>
             </div>
         </form>
-        {% if result %}
-        <div class="notification is-info mt-5">
-            {{ result }}
-        </div>
+        {% if result_image == 'correct.png' %}
+            <div class="mt-5">
+                <img src="{{ url_for('static', filename='img/' ~ result_image) }}" alt="Résultat" class="centered-image">
+            </div>
         {% endif %}
     </div>
 
@@ -131,7 +175,6 @@
 </section>
 
 <script>
-
     // Gestion du thème de l'application
     document.getElementById('dark-mode-toggle').addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
@@ -160,7 +203,7 @@
     // Redirection après avoir trouvé le juste prix
     {% if correct_guess %}
         setTimeout(function() {
-            window.location.href = "{{ url_for('jeu_get', pseudo=pseudo, theme=theme) | safe}}";
+            window.location.href = "{{ url_for('jeu_get', pseudo=pseudo, theme=theme) | safe }}";
         }, 3000);
     {% endif %}
 </script>
