@@ -74,6 +74,10 @@
         .dark-mode .label, .dark-mode .title, .dark-mode .control {
             color: #ffffff;
         }
+
+        .dark-mode ::placeholder {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +97,9 @@
                     </div>
                     <button class="button is-primary is-large is-fullwidth mt-5" type="submit">Rejoindre le jeu</button>
                 </form>
+                <a href="{{ url_for('insertion_get') }}">
+                    <button class="button is-link is-large is-fullwidth mt-3">Insérer un objet</button>
+                </a>
             </div>
             <div class="column has-text-centered">
                 <figure class="image swing large-image mx-auto">
