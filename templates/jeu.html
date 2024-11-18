@@ -66,6 +66,8 @@
         .dark-mode .score {
             color: #ffffff;
         }
+
+
     </style>
 </head>
 <body>
@@ -81,8 +83,9 @@
                 <div class="columns is-vcentered">
                     <div class="column is-half has-text-left">
                         <div class="box has-text-centered">
-                            <h1 class="title">Bienvenue, {{ pseudo }}</h1>
+                            <h1 class="title">Bienvenue, {{ pseudo }} !</h1>
                             <p class="score">Score : {{ score }}</p>
+
                         </div>
                     </div>
                     <div class="column is-half has-text-right">
@@ -121,18 +124,20 @@
             <input type="hidden" name="nom" value="{{ nom }}">
             <div class="field has-addons has-addons-centered mt-5">
                 <div class="control">
-                    <input class="input" type="text" name="prix" placeholder="Entrez votre prix" min="0" required>
+                    <input class="input" type="text" id="prix-input" name="prix" placeholder="Entrez votre prix" min="0" required>
                 </div>
                 <div class="control">
                     <button class="button is-primary" type="submit">Valider</button>
                 </div>
             </div>
         </form>
-        {% if result %}
-        <div class="notification is-info mt-5">
-            {{ result }}
-        </div>
+        {% if result_image %}
+            <div style="position: absolute; bottom: 20px; right: 20px;">
+                <img src="{{ url_for('static', filename='img/' ~ result_image) }}" alt="Résultat" style="width: 100px; height: auto;">
+            </div>
+
         {% endif %}
+
     </div>
 
     <div class="bottom-right">
@@ -170,9 +175,12 @@
     // Redirection après avoir trouvé le juste prix
     {% if correct_guess %}
         setTimeout(function() {
-            window.location.href = "{{ url_for('jeu_get', pseudo=pseudo, theme=theme) | safe}}";
+            window.location.href = "{{ url_for('jeu_get', pseudo=pseudo, theme=theme) | safe }}";
         }, 3000);
     {% endif %}
+
+
+
 </script>
 </body>
 </html>

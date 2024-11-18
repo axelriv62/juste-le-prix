@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, session
 from DB import ProduitDB, PartieDB
-
+import random
 app = Flask(__name__)
 app.secret_key = 'ekip_abcq'
 
@@ -15,8 +15,7 @@ def index():
 
 @app.route('/jeu', methods=['GET'])
 def jeu_get():
-
-    # Récupérer le pseudo et le thème en paramètres
+    # Récupérer le pseudo et le thème
     pseudo = request.args.get('pseudo')
     theme = request.args.get('theme', '')
 
@@ -26,12 +25,24 @@ def jeu_get():
     # Récupérer les données du produit
     code_produit, nom_produit, image, prix = ProduitDB.get_produit(theme)
 
-    return render_template('jeu.html', pseudo=pseudo, theme=theme, score=0, image=image, nom=nom_produit, prix=prix, code=code_produit)
-
+    # Renvoyer le template avec un correct_guess explicite
+    return render_template(
+        'jeu.html',
+        pseudo=pseudo,
+        theme=theme,
+        score=session['score'],
+        image=image,
+        nom=nom_produit,
+        code=code_produit,
+        result_image=None,
+        correct_guess=False  # Initialisation explicite
+    )
 
 
 @app.route('/jeu', methods=['POST'])
 def jeu_post():
+    # Débogage des données reçues
+    print("Form data:", request.form)
 
     # Récupérer les données
     pseudo = request.form['pseudo']
@@ -41,27 +52,35 @@ def jeu_post():
     image = request.form['image']
     nom_produit = request.form['nom']
 
-    # Récupérer le prix du produit
+    # Obtenir le prix réel
     actual_prix = ProduitDB.get_prix(code_produit)
 
-    # Comparer le prix du produit avec le prix proposé par le joueur
+    # Déterminer le résultat
     if guess < actual_prix:
-        result = "C'est plus !"
-        session['score'] += 1
+        result_image = "plus.png"
         correct_guess = False
     elif guess > actual_prix:
-        result = "C'est moins !"
-        session['score'] += 1
+        result_image = "moins.png"
         correct_guess = False
     else:
-        result = "Félicitations ! Vous avez trouvé le juste prix ! Essayez de deviner celui du produit suivant..."
-        session['score'] += 1
+        result_image = "correct.png"
         correct_guess = True
 
-        # Insérer la partie du joueur dans la base de données
-        PartieDB.inserer_partie(pseudo, session['score'], code_produit)
+    # Debug pour result_image et correct_guess
+    print(f"Result image: {result_image}, Correct guess: {correct_guess}")
 
-    return render_template('jeu.html', pseudo=pseudo, score=session['score'], theme=theme, image=image, nom=nom_produit, code=code_produit, result=result, correct_guess=correct_guess)
+    return render_template(
+        'jeu.html',
+        pseudo=pseudo,
+        score=session['score'],
+        theme=theme,
+        image=image,
+        nom=nom_produit,
+        code=code_produit,
+        result_image=result_image,
+        correct_guess=correct_guess
+    )
+
 
 if __name__ == '__main__':
     app.run(debug=True)
