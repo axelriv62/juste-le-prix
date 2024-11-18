@@ -66,9 +66,6 @@ def jeu_post():
         result_image = "correct.png"
         correct_guess = True
 
-    # Debug pour result_image et correct_guess
-    print(f"Result image: {result_image}, Correct guess: {correct_guess}")
-
     return render_template(
         'jeu.html',
         pseudo=pseudo,
