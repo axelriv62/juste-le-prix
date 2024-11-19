@@ -8,7 +8,7 @@ def creer_table():
     """
 
     # Connexion à la base de données
-    con = sqlite3.connect("DB/database.db")
+    con = sqlite3.connect("database/database.db")
     cur = con.cursor()
 
     # Suppression de la table si elle existe
@@ -46,7 +46,7 @@ def inserer_produit(code, theme):
         return "Le code du produit doit être composé de 10 caractères"
 
     # Connexion à la base de données
-    con = sqlite3.connect("DB/database.db")
+    con = sqlite3.connect("database/database.db")
     cur = con.cursor()
 
     # Vérifie si le produit existe déjà
@@ -142,7 +142,7 @@ def get_produit(theme):
     """
 
     # Connexion à la base de données
-    con = sqlite3.connect("DB/database.db")
+    con = sqlite3.connect("database/database.db")
     cur = con.cursor()
 
     # Récupère un produit aléatoire en fonction du thème
@@ -170,7 +170,7 @@ def get_prix(code):
     """
 
     # Connexion à la base de données
-    conn = sqlite3.connect('DB/database.db')
+    conn = sqlite3.connect('database/database.db')
     cur = conn.cursor()
 
     # Récupère le prix du produit

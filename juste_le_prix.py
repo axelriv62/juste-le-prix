@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, session
-from DB import ProduitDB, PartieDB
+from database import ProduitDB, PartieDB
 
 app = Flask(__name__)
 

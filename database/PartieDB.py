@@ -48,7 +48,7 @@ def inserer_partie(pseudo, score, code_produit):
     """
 
     # Connexion à la base de données
-    con = sqlite3.connect('DB/database.db')
+    con = sqlite3.connect('database/database.db')
     cur = con.cursor()
 
     # Insertion de la partie
@@ -74,7 +74,7 @@ def get_joueurs(pseudo):
     """
 
     # Connexion à la base de données
-    con = sqlite3.connect('DB/database.db')
+    con = sqlite3.connect('database/database.db')
     cur = con.cursor()
 
     # Récupération des logs du joueur
@@ -101,7 +101,7 @@ def delete_joueur(pseudo, code_produit):
     """
 
     # Connexion à la base de données
-    con = sqlite3.connect('DB/database.db')
+    con = sqlite3.connect('database/database.db')
     cur = con.cursor()
 
     # Suppression du joueur
@@ -115,7 +115,7 @@ def delete_joueur(pseudo, code_produit):
 
 def get_scores():
     # Connexion à la base de données
-    con = sqlite3.connect('DB/database.db')
+    con = sqlite3.connect('database/database.db')
     cur = con.cursor()
 
     # Récupérer tous les scores classés par score décroissant

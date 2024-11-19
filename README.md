@@ -1,77 +1,67 @@
-# GROUPE EKIP
+<h1 align="center">
+  <br>
+  <img src="https://github.com/axelriv62/juste-le-prix/blob/main/static/img/logo.png" width="200">
+  <br>
+  <b>Juste le prix</b>
+  <br>
+  <a href="https://github.com/axelriv62/main/juste-le-prix/blob/main/README.md">
+    <img src="https://img.shields.io/badge/README-FR-blue">
+  </a>
+  <a href="https://github.com/axelriv62/main/juste-le-prix/blob/main/README-EN.md">
+    <img src="https://img.shields.io/badge/README-EN-blue">
+  </a>
+</h1>
 
-## Membres :
-- Axel Rivière (__*Scrum Master*__)
-- Bylel Bourhim
-- Quentin Tripognez
-- Clément Markwitz
+<br>
 
-## Manuel d'utilisation
-- Pour lancer l'application, il suffit de lancer le fichier `app.py`.
+*Réalisé par [Axel](https://github.com/axelriv62) (Scrum Master), [Quentin](https://github.com/quentinltg), [Bylel](https://github.com/SirSweazzyyy) et [Clément](https://github.com/clement-markwitz), étudiants de deuxième année (promotion 24-25) de BUT Informatique au sein de l'IUT de Lens.*
 
-- Vous attérissez sur une page d'accueil où vous aurez la possibilité de jouer ou d'insérer un produit
-  - Si souhaitez jouer, vous devez renseigner votre pseudo et cliquer sur le bouton "Jouer"
-  - Si vous souhaitez insérer un produit, vous devez cliquer sur le bouton "Insérer" qui vous redirigera vers une page dédiée.
+<br>
 
-- Vous avez également la possibilité, à travers les boutons en bas à droite, de changer le mode clair/sombre ainsi que de consulter le tableau des scores.
+<div align="center">  
+  <img src="https://github.com/axelriv62/juste-le-prix/blob/main/static/readme/dark-mode/accueil.png" alt="Screenshot" width="800">  
+</div>  
 
-## Product backlog
-* Base de données pour les produits avec 5 attributs :
-  - code (clé primaire)
-  - image 
-  - nom
-  - prix
-  - thème
+<br>
 
-* Base de donnee pour les logs de joueurs avec 4 attributs :
-  - identifiant (clé primaire)
-  - pseudo
-  - score
-  - code du produit deviné (clé étrangère)
+## Présentation
 
-* Programmes qui gérent la base de données (création, insertion, séléction)
+Cette application a été réalisée dans le cadre d'un projet de troisième semestre en BUT Informatique à l'IUT de Lens.
 
-* Page web de jeu qui affiche une image et un champ texte pour deviner le prix du produit
+L'objectif principale était de concevoir un jeu du juste prix en Flask tout en gérant le projet avec Git et en appliquant la méthode Scrum.
 
-* Page web pour insérer des produits dans la base de données
+<br>
 
-* Page web pour afficher les scores (nombre de tentative) dans l'ordre croissant 
+## Objectifs
 
-* Programme principal qui gère les différentes routes de l'application
+- Intégrer une base de données pour stocker les produits et les logs de parties.
+- Récupérer les informations sur des produits d'Amazon grâce à une API.
+- Créer une interface graphique confortable pour jouer et administrer le jeu.
+- Implémenter des fonctionnalités variées pour rendre le jeu plus intéressant.
 
-## Features
+<br>
+
+# Features
+
 - Mode clair/sombre
 - Page d'accueil
 - Page d'insertion de produit
 - Page d'affichage des scores
 - Thèmes de produits
-- Bruitage
+- Bruitages
 
-## Répartition des tâches
-| Tâche                                                | Responsable(s)                   |
-|------------------------------------------------------|----------------------------------|
-| Conception de la base de données                     | Clément Markwitz & Bylel Bourhim |
-| Implémentation des requêtes à l'API                  | Axel Rivière                     |
-| Développement du programme principal                 | Axel Rivière & Bylel Bourhim     |
-| Réalisation de la page d'insertion de produit (back) | Axel Rivière                     | 
-| Réalisation de la page des scores (back)             | Clément Markwitz                 |
-| Gestion du front sur l'ensemble de l'application     | Quentin Tripognez                |
+<br>
 
-## Screenshots de l'application
+# Pistes d'amélioration
 
-| Light Mode                                             | Dark Mode                                             |
-|--------------------------------------------------------|-------------------------------------------------------|
-| ![Page d'accueil](static/readme/light-mode/accueil.png) | ![Page d'accueil](static/readme/dark-mode/accueil.png) |
-| ![Page de jeu](static/readme/light-mode/jeu.png)       | ![Page de jeu](static/readme/dark-mode/jeu.png)       |
-| ![C'est moins](static/readme/light-mode/moins.png)     | ![C'est moins](static/readme/dark-mode/moins.png)     |
-| ![C'est plus](static/readme/light-mode/plus.png)       | ![C'est plus](static/readme/dark-mode/plus.png)       |
-| ![C'est correct](static/readme/light-mode/correct.png) | ![C'est correct](static/readme/dark-mode/correct.png) |
-| ![Page d'insertion](static/readme/light-mode/insertion.png) | ![Page d'insertion](static/readme/dark-mode/insertion.png) |
-| ![Page des scores](static/readme/light-mode/scores.png) | ![Page des scores](static/readme/dark-mode/scores.png) |
+Le projet étant terminé dans le cadre du cours, nous avon encore quelques pistes d'amélioration pour le jeu par nous-même.:
 
-## Screenshots GitLab
-### Workflow : *Feature Branch Workflow*
-| Issues                                                | Milestones                                             |
-|-------------------------------------------------------|--------------------------------------------------------|
-| ![Issues](static/readme/gitlab/issues.png)                   | ![Milestones](static/readme/gitlab/milestones.png)            |
+- Ajouter un timer pour chaque partie.
+- Implémenter des niveaux de difficulté.
+- Intégrer un système de tri pour l'affichage des scores.
 
+<br>
+
+## Langages, Outils et Logiciels Utilisés
+
+![My Skills](https://go-skill-icons.vercel.app/api/icons?i=python,flask,bulma,sqlite,git,gitlab&theme=dark)
